@@ -42,13 +42,6 @@ impl Project {
     pub fn num_todos(self) -> usize {
         self.todos.len()
     }
-
-    pub fn get_archived(self) -> Vec<Task> {
-        self.todos
-            .iter_mut()
-            .filter(|todo| todo.check_status() == Status::Archived)
-            .collect()
-    }
 }
 
 #[cfg(test)]
@@ -108,19 +101,5 @@ mod tests {
             .add_todo(todo2);
 
         assert_eq!(2, project.num_todos());
-    }
-
-    #[test]
-    fn search_returns_correct_todos() {
-        let todo = Task::new("New test todo");
-        let mut todo2 = Task::new("New test todo 2");
-        todo2.archive();
-
-        let archived_todos = Project::new("New test project")
-            .add_todo(todo)
-            .add_todo(todo2)
-            .get_archived();
-
-        assert_eq!(1, archived_todos.len());
     }
 }

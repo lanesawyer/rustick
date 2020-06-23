@@ -1,5 +1,4 @@
 use uuid::Uuid;
-use std::iter::FromIterator;
 
 pub struct Task {
     id: Uuid,
