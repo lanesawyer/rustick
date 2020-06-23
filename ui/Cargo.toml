@@ -4,9 +4,6 @@ version = "0.1.0"
 authors = ["Lane Sawyer <github@lanesawyer.dev>"]
 edition = "2018"
 
-# Build with:
-# wasm-pack build --target web --out-name wasm --out-dir ../server/static
-
 [lib]
 crate-type = ["cdylib", "rlib"]
 
