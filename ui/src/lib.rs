@@ -1,11 +1,15 @@
 use serde::{Deserialize, Serialize};
 use wasm_bindgen::prelude::*;
-use yew::{services::{storage::Area, StorageService}, prelude::*, format::Json};
+use yew::{
+    format::Json,
+    prelude::*,
+    services::{storage::Area, StorageService},
+};
 
 mod components;
 mod todo_ui;
 
-use components::{Header, Footer};
+use components::{Footer, Header};
 use rustick::todo::Task;
 use todo_ui::TodoUi;
 
@@ -15,7 +19,6 @@ struct Model {
     link: ComponentLink<Self>,
     storage: StorageService,
     state: State,
-    
 }
 
 impl Model {
@@ -28,7 +31,7 @@ impl Model {
 
 #[derive(Serialize, Deserialize)]
 struct State {
-    tasks: Vec<Task>
+    tasks: Vec<Task>,
 }
 
 enum Msg {
@@ -39,25 +42,26 @@ impl Component for Model {
     type Message = Msg;
     type Properties = ();
     fn create(_: Self::Properties, link: ComponentLink<Self>) -> Self {
-        let storage = StorageService::new(Area::Local)
-            .expect("storage was disabled by the user");
+        let storage = StorageService::new(Area::Local).expect("storage was disabled by the user");
 
         Self {
             link,
             storage,
             state: State {
-                tasks: vec![Task::new("wooo"), Task::new("eeee")]
-            }
+                tasks: vec![Task::new("wooo"), Task::new("eeee")],
+            },
         }
     }
 
     fn update(&mut self, msg: Self::Message) -> ShouldRender {
         match msg {
-            Msg::AddOne => print!("todo")
+            Msg::AddOne => print!("todo"),
         }
 
         let window: web_sys::Window = web_sys::window().expect("window not available");
-        window.alert_with_message("hello from wasm!").expect("alert failed");
+        window
+            .alert_with_message("hello from wasm!")
+            .expect("alert failed");
 
         self.storage.store(KEY, Json(&self.state.tasks));
         true

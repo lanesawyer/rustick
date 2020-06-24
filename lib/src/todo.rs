@@ -1,13 +1,13 @@
-use serde::{Serialize, Deserialize};
+use serde::{Deserialize, Serialize};
 
 #[derive(Serialize, Deserialize, Clone)]
 pub struct Task {
-    id: u32,
+    pub id: u32,
     pub description: String,
     status: Status,
     priority: Priority,
     tags: Vec<Tag>,
-    comments: Vec<Comment>
+    comments: Vec<Comment>,
 }
 
 impl Default for Task {
@@ -18,7 +18,7 @@ impl Default for Task {
             status: Status::Open,
             priority: Priority::Wont,
             tags: Default::default(),
-            comments: Default::default()
+            comments: Default::default(),
         }
     }
 }
@@ -65,12 +65,12 @@ pub enum Priority {
 
 #[derive(Serialize, Deserialize, Clone)]
 pub struct Tag {
-    text: String
+    text: String,
 }
 
 #[derive(Serialize, Deserialize, Clone)]
 pub struct Comment {
-    text: String
+    text: String,
 }
 
 #[cfg(test)]

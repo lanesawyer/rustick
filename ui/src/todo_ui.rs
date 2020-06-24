@@ -1,14 +1,14 @@
+use rustick::todo::{Status, Task};
+use serde::{Deserialize, Serialize};
 use yew::prelude::*;
 use yew::Properties;
-use serde::{Serialize, Deserialize};
-use rustick::todo::{Task, Status};
 
 pub struct TodoUi {
     link: ComponentLink<Self>,
     props: TodoUiProps,
     task: Task,
     editing: bool,
-    new_description: String
+    new_description: String,
 }
 
 impl TodoUi {
@@ -46,7 +46,7 @@ pub enum TodoUiMsg {
 
 #[derive(Properties, Clone, Serialize, Deserialize)]
 pub struct TodoUiProps {
-    pub task: Task
+    pub task: Task,
 }
 
 impl Component for TodoUi {
@@ -58,14 +58,14 @@ impl Component for TodoUi {
             props,
             task: Task::new("gah"),
             editing: false,
-            new_description: "hm".to_string()
+            new_description: "hm".to_string(),
         }
     }
 
     fn update(&mut self, msg: Self::Message) -> ShouldRender {
         match msg {
             TodoUiMsg::Add => {}
-            TodoUiMsg::Edit(_) => {}
+            TodoUiMsg::Edit(e) => {}
             TodoUiMsg::Update(_) => {}
             TodoUiMsg::UpdateEdit(_) => {}
             TodoUiMsg::Remove(_) => {}
@@ -86,22 +86,27 @@ impl Component for TodoUi {
     fn view(&self) -> Html {
         let classes = match self.props.task.clone().check_status() {
             Status::Complete => vec!["complete".to_string()],
-            _ => Vec::new()
+            _ => Vec::new(),
         };
 
         let checked = match self.props.task.clone().check_status() {
             Status::Complete => true,
-            _ => false
+            _ => false,
         };
 
+        let id = self.props.task.id;
+
         html! {
-            <div>
-                <label>
-                    <input 
-                        type="checkbox" 
-                        class=classes
-                        checked=checked />
-                        { &self.props.task.description }
+            <li>
+                <input
+                    type="checkbox"
+                    class=classes
+                    checked=checked />
+
+                <label
+                    for=id
+                    onclick=self.link.callback(move |_| TodoUiMsg::ToggleEdit(id)) >
+                    { &self.props.task.description }
                 </label>
                                     // <input class="new-todo"
                     //     placeholder="What's next?"
@@ -110,8 +115,8 @@ impl Component for TodoUi {
                     //     onkeypress=self.link.callback(|e: KeyboardEvent| {
                     //         if e.key() == "Enter" { Msg::Add } else { Msg::Nope }
                     //     }) />
-                { self.view_entry_edit_input(12) }
-            </div>
+                { self.view_entry_edit_input(self.task.id) }
+            </li>
         }
     }
 }
