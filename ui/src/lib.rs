@@ -1,19 +1,34 @@
+use serde::{Deserialize, Serialize};
 use wasm_bindgen::prelude::*;
-use yew::prelude::*;
+use yew::{services::{storage::Area, StorageService}, prelude::*, format::Json};
 
 mod components;
 mod todo_ui;
 
 use components::{Header, Footer};
+use rustick::todo::Task;
 use todo_ui::TodoUi;
+
+const KEY: &str = "rustic.local";
 
 struct Model {
     link: ComponentLink<Self>,
+    storage: StorageService,
     state: State,
+    
 }
 
+impl Model {
+    fn view_task(&self, t: &Task) -> Html {
+        html! {
+            <TodoUi task=t />
+        }
+    }
+}
+
+#[derive(Serialize, Deserialize)]
 struct State {
-    tasks: Vec<TodoUi>
+    tasks: Vec<Task>
 }
 
 enum Msg {
@@ -24,10 +39,14 @@ impl Component for Model {
     type Message = Msg;
     type Properties = ();
     fn create(_: Self::Properties, link: ComponentLink<Self>) -> Self {
+        let storage = StorageService::new(Area::Local)
+            .expect("storage was disabled by the user");
+
         Self {
             link,
+            storage,
             state: State {
-                tasks: Vec::new()
+                tasks: vec![Task::new("wooo"), Task::new("eeee")]
             }
         }
     }
@@ -40,6 +59,7 @@ impl Component for Model {
         let window: web_sys::Window = web_sys::window().expect("window not available");
         window.alert_with_message("hello from wasm!").expect("alert failed");
 
+        self.storage.store(KEY, Json(&self.state.tasks));
         true
     }
 
@@ -55,7 +75,9 @@ impl Component for Model {
             <>
                 <Header />
                 <h1>{ "Todos" }</h1>
-                <TodoUi completed=true />
+                <ul class="todo-list">
+                    { for self.state.tasks.iter().map(|t| self.view_task(&t)) }
+                </ul>
                 <div>
                     <button onclick=self.link.callback(|_| Msg::AddOne)>{ "+1" }</button>
                 </div>

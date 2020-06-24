@@ -1,8 +1,9 @@
-use uuid::Uuid;
+use serde::{Serialize, Deserialize};
 
+#[derive(Serialize, Deserialize, Clone)]
 pub struct Task {
-    id: Uuid,
-    task_name: String,
+    id: u32,
+    pub description: String,
     status: Status,
     priority: Priority,
     tags: Vec<Tag>,
@@ -12,8 +13,8 @@ pub struct Task {
 impl Default for Task {
     fn default() -> Self {
         Task {
-            id: Uuid::new_v4(),
-            task_name: "New todo".to_string(),
+            id: 0, // Uuid::new_v4(), - using a simpler value so I can get rid of some compiler errors
+            description: "New todo".to_string(),
             status: Status::Open,
             priority: Priority::Wont,
             tags: Default::default(),
@@ -25,7 +26,7 @@ impl Default for Task {
 impl Task {
     pub fn new(task: &str) -> Task {
         Task {
-            task_name: task.to_string(),
+            description: task.to_string(),
             ..Default::default()
         }
     }
@@ -47,14 +48,14 @@ impl Task {
     }
 }
 
-#[derive(Copy, Clone, Debug, PartialEq)]
+#[derive(Copy, Clone, Debug, PartialEq, Serialize, Deserialize)]
 pub enum Status {
     Open,
     Complete,
     Archived,
 }
 
-#[derive(Copy, Clone)]
+#[derive(Copy, Clone, Serialize, Deserialize)]
 pub enum Priority {
     Must,
     Should,
@@ -62,10 +63,12 @@ pub enum Priority {
     Wont,
 }
 
+#[derive(Serialize, Deserialize, Clone)]
 pub struct Tag {
     text: String
 }
 
+#[derive(Serialize, Deserialize, Clone)]
 pub struct Comment {
     text: String
 }
@@ -77,7 +80,7 @@ mod tests {
     fn default_todo_values_are_correct() {
         let todo = Task::default();
 
-        assert_eq!("New todo", todo.task_name);
+        assert_eq!("New todo", todo.description);
         assert_eq!(Status::Open, todo.status);
     }
 
@@ -85,7 +88,7 @@ mod tests {
     fn new_todo_has_task() {
         let todo = Task::new("New test todo");
 
-        assert_eq!("New test todo", todo.task_name);
+        assert_eq!("New test todo", todo.description);
     }
 
     #[test]

@@ -1,10 +1,12 @@
 use yew::prelude::*;
 use yew::Properties;
+use serde::{Serialize, Deserialize};
+use rustick::todo::{Task, Status};
 
-#[derive(Clone)]
 pub struct TodoUi {
     link: ComponentLink<Self>,
     props: TodoUiProps,
+    task: Task,
     editing: bool,
     new_description: String
 }
@@ -42,12 +44,9 @@ pub enum TodoUiMsg {
     Ignore,
 }
 
-#[derive(Properties, Clone, PartialEq)]
+#[derive(Properties, Clone, Serialize, Deserialize)]
 pub struct TodoUiProps {
-    #[prop_or(false)]
-    pub completed: bool,
-    #[prop_or("New task".to_string())]
-    title: String
+    pub task: Task
 }
 
 impl Component for TodoUi {
@@ -57,8 +56,9 @@ impl Component for TodoUi {
         Self {
             link,
             props,
+            task: Task::new("gah"),
             editing: false,
-            new_description: "".to_string()
+            new_description: "hm".to_string()
         }
     }
 
@@ -75,6 +75,7 @@ impl Component for TodoUi {
             TodoUiMsg::ClearCompleted => {}
             TodoUiMsg::Ignore => {}
         }
+        //self.storage.store(KEY, Json(&self.state.entries));
         true
     }
 
@@ -83,14 +84,24 @@ impl Component for TodoUi {
     }
 
     fn view(&self) -> Html {
+        let classes = match self.props.task.clone().check_status() {
+            Status::Complete => vec!["complete".to_string()],
+            _ => Vec::new()
+        };
+
+        let checked = match self.props.task.clone().check_status() {
+            Status::Complete => true,
+            _ => false
+        };
+
         html! {
             <div>
                 <label>
                     <input 
                         type="checkbox" 
-                        class=if self.props.completed { vec!["complete".to_string()] } else { Vec::new() }
-                        checked=self.props.completed />
-                        { &self.props.title }
+                        class=classes
+                        checked=checked />
+                        { &self.props.task.description }
                 </label>
                                     // <input class="new-todo"
                     //     placeholder="What's next?"

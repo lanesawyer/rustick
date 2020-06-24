@@ -1,2 +1,2 @@
-mod project;
-mod todo;
+pub mod project;
+pub mod todo;
