@@ -1,9 +1,19 @@
 use wasm_bindgen::prelude::*;
 use yew::prelude::*;
 
+mod components;
+mod todo_ui;
+
+use components::{Header, Footer};
+use todo_ui::TodoUi;
+
 struct Model {
     link: ComponentLink<Self>,
-    value: i64,
+    state: State,
+}
+
+struct State {
+    tasks: Vec<TodoUi>
 }
 
 enum Msg {
@@ -16,13 +26,15 @@ impl Component for Model {
     fn create(_: Self::Properties, link: ComponentLink<Self>) -> Self {
         Self {
             link,
-            value: 0,
+            state: State {
+                tasks: Vec::new()
+            }
         }
     }
 
     fn update(&mut self, msg: Self::Message) -> ShouldRender {
         match msg {
-            Msg::AddOne => self.value += 1
+            Msg::AddOne => print!("todo")
         }
 
         let window: web_sys::Window = web_sys::window().expect("window not available");
@@ -40,23 +52,20 @@ impl Component for Model {
 
     fn view(&self) -> Html {
         html! {
-            <div>
-                <button onclick=self.link.callback(|_| Msg::AddOne)>{ "+1" }</button>
-                <p>{ self.value }</p>
-            </div>
+            <>
+                <Header />
+                <h1>{ "Todos" }</h1>
+                <TodoUi completed=true />
+                <div>
+                    <button onclick=self.link.callback(|_| Msg::AddOne)>{ "+1" }</button>
+                </div>
+                <Footer />
+            </>
         }
     }
 }
 
 #[wasm_bindgen(start)]
 pub fn run_app() {
-
-    println!("hey");
-    yew::initialize();
-    let document = yew::utils::document();
-    let mount_point = document.query_selector("#mount-point").unwrap().unwrap();
-    println!("{:?}", mount_point);
-
-    App::<Model>::new().mount(mount_point);
-    yew::run_loop();
+    App::<Model>::new().mount_to_body();
 }
