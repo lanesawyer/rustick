@@ -47,6 +47,7 @@ impl Project {
 #[cfg(test)]
 mod tests {
     use super::*;
+    
     #[test]
     fn default_project_values_are_correct() {
         let project = Project::default();
