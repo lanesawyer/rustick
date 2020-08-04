@@ -2,6 +2,7 @@ use crate::todo::{Status, Task};
 
 pub struct Project {
     name: String,
+    icon: Option<String>,
     todos: Vec<Task>,
     status: Status,
 }
@@ -10,6 +11,7 @@ impl Default for Project {
     fn default() -> Self {
         Project {
             name: "New project".to_string(),
+            icon: None,
             todos: Vec::new(),
             status: Status::Open,
         }

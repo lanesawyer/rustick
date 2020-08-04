@@ -25,7 +25,7 @@ impl TodoUi {
                     }) />
             }
         } else {
-            html! { <input type="hidden" /> }
+            html! { <button /> }
         }
     }
 }
@@ -91,7 +91,8 @@ impl Component for TodoUi {
 
         let checked = match self.props.task.clone().check_status() {
             Status::Complete => true,
-            _ => false,
+            Status::Open => {}
+            Status::Archived => {}
         };
 
         let id = self.props.task.id;

@@ -83,12 +83,16 @@ impl Component for Model {
                     { for self.state.tasks.iter().map(|t| self.view_task(&t)) }
                 </ul>
                 <div>
-                    <button onclick=self.link.callback(|_| Msg::AddOne)>{ "+1" }</button>
+                    <button onclick=self.link.callback(|_| Msg::AddOne)>{ "Add task" }</button>
                 </div>
                 <Footer />
             </>
         }
     }
+
+    fn rendered(&mut self, _first_render: bool) {}
+    
+    fn destroy(&mut self) {}
 }
 
 #[wasm_bindgen(start)]
