@@ -1,8 +1,8 @@
 use crate::todo::{Status, Task};
 
 pub struct Project {
-    name: String,
-    icon: Option<String>,
+    pub name: String,
+    pub icon: Option<String>,
     todos: Vec<Task>,
     status: Status,
 }
