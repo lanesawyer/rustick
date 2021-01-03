@@ -65,7 +65,7 @@ impl Component for TodoUi {
     fn update(&mut self, msg: Self::Message) -> ShouldRender {
         match msg {
             TodoUiMsg::Add => {}
-            TodoUiMsg::Edit(e) => {}
+            TodoUiMsg::Edit(_e) => {}
             TodoUiMsg::Update(_) => {}
             TodoUiMsg::UpdateEdit(_) => {}
             TodoUiMsg::Remove(_) => {}
