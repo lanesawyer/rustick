@@ -66,6 +66,7 @@ pub enum Priority {
 #[derive(Serialize, Deserialize, Clone)]
 pub struct Tag {
     text: String,
+    color: String,
 }
 
 #[derive(Serialize, Deserialize, Clone)]

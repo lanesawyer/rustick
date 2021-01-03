@@ -91,8 +91,8 @@ impl Component for TodoUi {
 
         let checked = match self.props.task.clone().check_status() {
             Status::Complete => true,
-            Status::Open => {}
-            Status::Archived => {}
+            Status::Open => false,
+            Status::Archived => false,
         };
 
         let id = self.props.task.id;

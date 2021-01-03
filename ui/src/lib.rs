@@ -7,9 +7,11 @@ use yew::{
 };
 
 mod components;
+mod project_list;
 mod todo_ui;
 
 use components::{Footer, Header};
+use project_list::ProjectList;
 use rustick::todo::Task;
 use todo_ui::TodoUi;
 
@@ -32,10 +34,11 @@ impl Model {
 #[derive(Serialize, Deserialize)]
 struct State {
     tasks: Vec<Task>,
+    new_task: String,
 }
 
 enum Msg {
-    AddOne,
+    AddTask,
 }
 
 impl Component for Model {
@@ -49,13 +52,14 @@ impl Component for Model {
             storage,
             state: State {
                 tasks: vec![Task::new("wooo"), Task::new("eeee")],
+                new_task: String::from(""),
             },
         }
     }
 
     fn update(&mut self, msg: Self::Message) -> ShouldRender {
         match msg {
-            Msg::AddOne => print!("todo"),
+            Msg::AddTask => print!("todo"),
         }
 
         let window: web_sys::Window = web_sys::window().expect("window not available");
@@ -78,20 +82,31 @@ impl Component for Model {
         html! {
             <>
                 <Header />
-                <h1>{ "Todos" }</h1>
-                <ul class="todo-list">
-                    { for self.state.tasks.iter().map(|t| self.view_task(&t)) }
-                </ul>
-                <div>
-                    <button onclick=self.link.callback(|_| Msg::AddOne)>{ "Add task" }</button>
-                </div>
+                <ProjectList />
+                <main>
+                    <h1>{ "Todos" }</h1>
+                    <ul class="todo-list">
+                        { for self.state.tasks.iter().map(|t| self.view_task(&t)) }
+                    </ul>
+                    <div>
+                        <input
+                            type="text"
+                            value=&self.state.new_task
+                        />
+                        // <input
+                        //     value=&self.state.newTask
+                        //     oninput=self.link.callback(|e: InputData| Msg::UpdateNewTask(e.value))
+                        // />
+                        <button onclick=self.link.callback(|_| Msg::AddTask)>{ "Add task" }</button>
+                    </div>
+                </main>
                 <Footer />
             </>
         }
     }
 
     fn rendered(&mut self, _first_render: bool) {}
-    
+
     fn destroy(&mut self) {}
 }
 
