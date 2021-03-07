@@ -1,3 +1,4 @@
+use chrono::{DateTime, Utc};
 use serde::{Deserialize, Serialize};
 
 #[derive(Serialize, Deserialize, Clone, Debug)]
@@ -9,6 +10,7 @@ pub struct Task {
     pub tags: Vec<Tag>,
     comments: Vec<Comment>,
     pub project_id: u32,
+    // created_date: DateTime<Utc>,
 }
 
 impl Default for Task {
@@ -21,6 +23,7 @@ impl Default for Task {
             tags: Default::default(),
             comments: Default::default(),
             project_id: Default::default(),
+            // created_date: Utc::now(),
         }
     }
 }

@@ -1,14 +1,20 @@
 :root {
     --background-color: rgb(219, 224, 219);
 
+    --font-large: 1.25em;
+    --font-medium: 1em;
+    --font-small: .75em;
+
     --priority1-color: red;
     --priority2-color: blue;
     --priority3-color: green;
     --priority4-color: gray;
     
-  }
+}
+
 body {
     background-color: var(--background-color);
+    font-size: var(--font-medium);
 }
 
 .todoItem {
@@ -17,12 +23,16 @@ body {
 }
 
 .todoItem-todo {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
     margin: 5px;
 }
 
 .todoItem-details {
     display: flex;
     align-items: center;
+    justify-content: space-between;
     margin: 5px;
 }
 
@@ -45,7 +55,10 @@ body {
 .todoItem-priority4 {
     background-color: var(--priority4-color);
 }
+
 .tag {
+    border-radius: 3px;
+    font-size: var(--font-small);
     padding: 5px;
     margin: 3px;
 }

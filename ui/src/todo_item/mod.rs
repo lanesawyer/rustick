@@ -25,7 +25,7 @@ impl TodoItem {
                     }) />
             }
         } else {
-            html! { <button /> }
+            html! { <div>{"Hm"}</div> }
         }
     }
 }
@@ -113,6 +113,16 @@ impl Component for TodoItem {
         }).collect::<VNode>();
         
         ConsoleService::info(&format!("task: {:?}", task));
+
+        let details = html! {
+            <span class="todoItem-details">
+                <span>
+                    <span class={priority_class}>{ priority.1 }</span>
+                    { tags }
+                </span>
+                <span class="todoItem-project">{&task.project_id}</span>
+            </span>
+        };
         
         html! {
             <li class="todoItem">
@@ -126,20 +136,16 @@ impl Component for TodoItem {
                         onclick=self.link.callback(move |_| TodoUiMsg::ToggleEdit(id)) >
                         { &task.description }
                     </label>
+                    { self.view_entry_edit_input(self.task.id) }
                 </span>
-                <span class="todoItem-details">
-                    <span class={priority_class}>{ priority.1 }</span>
-                    { tags }
-                    <span class="todoItem-project">{&task.project_id}</span>
-                </span>
-                                    // <input class="new-odo"
-                    //     placeholder="What's next?"
-                    //     value=&self.value
-                    //     oninput=self.link.callback(|e: InputData| Msg::Update(e.value))
-                    //     onkeypress=self.link.callback(|e: KeyboardEvent| {
-                    //         if e.key() == "Enter" { Msg::Add } else { Msg::Nope }
-                    //     }) />
-                { self.view_entry_edit_input(self.task.id) }
+                { details }
+                // <input class="new-odo"
+                //     placeholder="What's next?"
+                //     value=&self.value
+                //     oninput=self.link.callback(|e: InputData| Msg::Update(e.value))
+                //     onkeypress=self.link.callback(|e: KeyboardEvent| {
+                //         if e.key() == "Enter" { Msg::Add } else { Msg::Nope }
+                //     }) />
             </li>
         }
     }
