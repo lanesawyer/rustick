@@ -1,9 +1,9 @@
 use rustick::todo::{Status, Task};
 use serde::{Deserialize, Serialize};
-use yew::prelude::*;
+use yew::{prelude::*, services::ConsoleService, virtual_dom::VNode};
 use yew::Properties;
 
-pub struct TodoUi {
+pub struct TodoItem {
     link: ComponentLink<Self>,
     props: TodoUiProps,
     task: Task,
@@ -11,7 +11,7 @@ pub struct TodoUi {
     new_description: String,
 }
 
-impl TodoUi {
+impl TodoItem {
     fn view_entry_edit_input(&self, id: u32) -> Html {
         if self.editing {
             html! {
@@ -49,7 +49,7 @@ pub struct TodoUiProps {
     pub task: Task,
 }
 
-impl Component for TodoUi {
+impl Component for TodoItem {
     type Message = TodoUiMsg;
     type Properties = TodoUiProps;
     fn create(props: Self::Properties, link: ComponentLink<Self>) -> Self {
@@ -84,32 +84,55 @@ impl Component for TodoUi {
     }
 
     fn view(&self) -> Html {
-        let classes = match self.props.task.clone().check_status() {
+        let task = &self.props.task;
+        
+        let classes = match task.clone().check_status() {
             Status::Complete => vec!["complete".to_string()],
             _ => Vec::new(),
         };
 
-        let checked = match self.props.task.clone().check_status() {
+
+        let checked = match task.clone().check_status() {
             Status::Complete => true,
-            Status::Open => false,
-            Status::Archived => false,
+            Status::Open | Status::Archived => false,
         };
 
-        let id = self.props.task.id;
+        let id = task.id;
+        let priority = match task.priority {
+            Must => ("1", "Must"),
+            Should => ("2", "Should"),
+            Could => ("3", "Could"),
+            Wont => ("4", "Wont"),
+        };
+        let priority_class = format!("todoItem-priority{}", priority.0);
 
+        let tags = task.tags.iter().map(|t| -> Html { 
+            html!{ 
+                <span class="tag" style={format!("background-color: {}", &t.color)}>{&t.text}</span> 
+            }
+        }).collect::<VNode>();
+        
+        ConsoleService::info(&format!("task: {:?}", task));
+        
         html! {
-            <li>
-                <input
-                    type="checkbox"
-                    class=classes
-                    checked=checked />
-
-                <label
-                    for=id
-                    onclick=self.link.callback(move |_| TodoUiMsg::ToggleEdit(id)) >
-                    { &self.props.task.description }
-                </label>
-                                    // <input class="new-todo"
+            <li class="todoItem">
+                <span class="todoItem-todo">
+                    <input
+                        type="checkbox"
+                        class=classes
+                        checked=checked />
+                    <label
+                        for=id
+                        onclick=self.link.callback(move |_| TodoUiMsg::ToggleEdit(id)) >
+                        { &task.description }
+                    </label>
+                </span>
+                <span class="todoItem-details">
+                    <span class={priority_class}>{ priority.1 }</span>
+                    { tags }
+                    <span class="todoItem-project">{&task.project_id}</span>
+                </span>
+                                    // <input class="new-odo"
                     //     placeholder="What's next?"
                     //     value=&self.value
                     //     oninput=self.link.callback(|e: InputData| Msg::Update(e.value))

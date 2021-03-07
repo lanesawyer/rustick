@@ -1,3 +1,51 @@
+:root {
+    --background-color: rgb(219, 224, 219);
+
+    --priority1-color: red;
+    --priority2-color: blue;
+    --priority3-color: green;
+    --priority4-color: gray;
+    
+  }
 body {
-    background-color: rgb(219, 224, 219);
+    background-color: var(--background-color);
+}
+
+.todoItem {
+    display: flex;
+    flex-direction: column;
+}
+
+.todoItem-todo {
+    margin: 5px;
+}
+
+.todoItem-details {
+    display: flex;
+    align-items: center;
+    margin: 5px;
+}
+
+.todoItem-project {
+    align-self: flex-end;
+}
+
+.todoItem-priority1 {
+    background-color: var(--priority1-color);
+}
+
+.todoItem-priority2 {
+    background-color: var(--priority2-color);
+}
+
+.todoItem-priority3 {
+    background-color: var(--priority3-color);
+}
+
+.todoItem-priority4 {
+    background-color: var(--priority4-color);
+}
+.tag {
+    padding: 5px;
+    margin: 3px;
 }

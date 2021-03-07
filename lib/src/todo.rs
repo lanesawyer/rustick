@@ -1,13 +1,14 @@
 use serde::{Deserialize, Serialize};
 
-#[derive(Serialize, Deserialize, Clone)]
+#[derive(Serialize, Deserialize, Clone, Debug)]
 pub struct Task {
     pub id: u32,
     pub description: String,
     status: Status,
-    priority: Priority,
-    tags: Vec<Tag>,
+    pub priority: Priority,
+    pub tags: Vec<Tag>,
     comments: Vec<Comment>,
+    pub project_id: u32,
 }
 
 impl Default for Task {
@@ -19,6 +20,7 @@ impl Default for Task {
             priority: Priority::Wont,
             tags: Default::default(),
             comments: Default::default(),
+            project_id: Default::default(),
         }
     }
 }
@@ -27,6 +29,16 @@ impl Task {
     pub fn new(task: &str) -> Task {
         Task {
             description: task.to_string(),
+            tags: vec![
+                Tag {
+                    text: "heyo".to_string(),
+                    color: "#AABBCC".to_string(),
+                },
+                Tag {
+                    text: "there".to_string(),
+                    color: "#DDEEFF".to_string(),
+                }
+            ],
             ..Default::default()
         }
     }
@@ -55,7 +67,7 @@ pub enum Status {
     Archived,
 }
 
-#[derive(Copy, Clone, Serialize, Deserialize)]
+#[derive(Copy, Clone, Debug, Serialize, Deserialize)]
 pub enum Priority {
     Must,
     Should,
@@ -63,13 +75,13 @@ pub enum Priority {
     Wont,
 }
 
-#[derive(Serialize, Deserialize, Clone)]
+#[derive(Serialize, Deserialize, Clone, Debug)]
 pub struct Tag {
-    text: String,
-    color: String,
+    pub text: String,
+    pub color: String,
 }
 
-#[derive(Serialize, Deserialize, Clone)]
+#[derive(Serialize, Deserialize, Clone, Debug)]
 pub struct Comment {
     text: String,
 }

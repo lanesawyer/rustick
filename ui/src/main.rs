@@ -7,12 +7,12 @@ use yew::{
 
 mod components;
 mod project_list;
-mod todo_ui;
+mod todo_item;
 
 use components::{Footer, Header};
 use project_list::ProjectList;
 use rustick::todo::Task;
-use todo_ui::TodoUi;
+use todo_item::TodoItem;
 
 const KEY: &str = "rustic.local";
 
@@ -25,7 +25,7 @@ struct Model {
 impl Model {
     fn view_task(&self, t: &Task) -> Html {
         html! {
-            <TodoUi task=t />
+            <TodoItem task=t />
         }
     }
 }
