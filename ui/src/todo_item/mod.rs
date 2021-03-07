@@ -25,7 +25,7 @@ impl TodoItem {
                     }) />
             }
         } else {
-            html! { <div>{"Hm"}</div> }
+            html! { <img src="icons/ellypsis-vertical.svg" /> }
         }
     }
 }
@@ -117,7 +117,11 @@ impl Component for TodoItem {
         let details = html! {
             <span class="todoItem-details">
                 <span>
+                    <img src="icons/calendar-event.svg" />
+                    <span>{"Due Date"}</span>
+                    <img src="icons/flag.svg" />
                     <span class={priority_class}>{ priority.1 }</span>
+                    <img src="icons/tag.svg" />
                     { tags }
                 </span>
                 <span class="todoItem-project">{&task.project_id}</span>
@@ -127,15 +131,17 @@ impl Component for TodoItem {
         html! {
             <li class="todoItem">
                 <span class="todoItem-todo">
-                    <input
-                        type="checkbox"
-                        class=classes
-                        checked=checked />
-                    <label
-                        for=id
-                        onclick=self.link.callback(move |_| TodoUiMsg::ToggleEdit(id)) >
-                        { &task.description }
-                    </label>
+                    <span>
+                        <input
+                            type="checkbox"
+                            class=classes
+                            checked=checked />
+                        <label
+                            for=id
+                            onclick=self.link.callback(move |_| TodoUiMsg::ToggleEdit(id)) >
+                            { &task.description }
+                        </label>
+                    </span>
                     { self.view_entry_edit_input(self.task.id) }
                 </span>
                 { details }

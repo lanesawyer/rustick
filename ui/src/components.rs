@@ -20,6 +20,7 @@ impl Component for Header {
     fn view(&self) -> Html {
         html! {
             <header>
+                <img src="icons/hamburger.svg" />
                 { "Rustick" }
             </header>
         }
@@ -46,6 +47,7 @@ impl Component for Footer {
     fn view(&self) -> Html {
         html! {
             <footer>
+                { "Add button lives here"}
                 { "Written by Lane Sawyer" }
             </footer>
         }

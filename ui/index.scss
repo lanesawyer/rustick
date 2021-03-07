@@ -15,11 +15,21 @@
 body {
     background-color: var(--background-color);
     font-size: var(--font-medium);
+    margin: 0;
+}
+
+header {
+    margin: 1em;
+}
+
+.todoList {
+    padding-left: 0;
 }
 
 .todoItem {
     display: flex;
     flex-direction: column;
+    border-bottom: .1em solid;
 }
 
 .todoItem-todo {

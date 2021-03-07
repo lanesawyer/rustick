@@ -83,8 +83,9 @@ impl Component for Model {
                 <Header />
                 <ProjectList />
                 <main>
-                    <h1>{ "Todos" }</h1>
-                    <ul class="todo-list">
+                    <h2>{ "Todos" }</h2>
+                    <ul class="todoList">
+                        // TODO: Group by date, Task needs due_date: DateTime<UTC> field to work
                         { for self.state.tasks.iter().map(|t| self.view_task(&t)) }
                     </ul>
                     <div>

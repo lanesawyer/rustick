@@ -20,7 +20,7 @@ impl Component for ProjectList {
     fn view(&self) -> Html {
         html! {
             <section>
-                <h1>{ "Projects" }</h1>
+                <h2>{ "Projects" }</h2>
             </section>
         }
     }
