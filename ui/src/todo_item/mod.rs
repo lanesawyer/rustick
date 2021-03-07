@@ -116,7 +116,7 @@ impl Component for TodoItem {
 
         let details = html! {
             <span class="todoItem-details">
-                <span>
+                <span class="todoItem-detailsContainer">
                     <img src="icons/calendar-event.svg" />
                     <span>{"Due Date"}</span>
                     <img src="icons/flag.svg" />

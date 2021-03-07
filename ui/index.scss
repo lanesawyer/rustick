@@ -39,15 +39,21 @@ header {
     margin: 5px;
 }
 
-.todoItem-details {
+.todoItem-detailsContainer {
     display: flex;
     align-items: center;
     justify-content: space-between;
     margin: 5px;
 }
 
+.todoItem-details {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
 .todoItem-project {
-    align-self: flex-end;
+    margin: 5px;
 }
 
 .todoItem-priority1 {
