@@ -1,5 +1,4 @@
 use serde::{Deserialize, Serialize};
-use wasm_bindgen::prelude::*;
 use yew::{
     format::Json,
     prelude::*,
@@ -110,7 +109,6 @@ impl Component for Model {
     fn destroy(&mut self) {}
 }
 
-#[wasm_bindgen(start)]
-pub fn run_app() {
+pub fn main() {
     App::<Model>::new().mount_to_body();
 }
