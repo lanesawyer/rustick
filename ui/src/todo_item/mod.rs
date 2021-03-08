@@ -36,7 +36,7 @@ pub enum TodoUiMsg {
     Update(String),
     UpdateEdit(String),
     Remove(usize),
-    //SetFilter(Filter),
+    // SetFilter(Filter),
     ToggleAll,
     ToggleEdit(u32),
     Toggle(u32),

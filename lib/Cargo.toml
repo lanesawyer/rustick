@@ -5,7 +5,7 @@ authors = ["Lane Sawyer <github@lanesawyer.dev>"]
 edition = "2018"
 
 [dependencies]
-chrono = { version = "0.4", features = ["serde" ] }
+chrono = { version = "0.4", features = ["serde", "wasmbind"] }
 ring = "0.16"
 serde = { version = "1.0", features = ["derive"] }
 uuid = { version = "0.4", features = ["serde", "v4"] }

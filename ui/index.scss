@@ -1,4 +1,5 @@
 :root {
+    --primary-color: rgb(247,76,0);
     --background-color: rgb(219, 224, 219);
 
     --font-large: 1.25em;
@@ -9,17 +10,21 @@
     --priority2-color: blue;
     --priority3-color: green;
     --priority4-color: gray;
-    
 }
 
 body {
+    display: flex;
+    flex-direction: column-reverse;
+    justify-content: space-between;
     background-color: var(--background-color);
     font-size: var(--font-medium);
     margin: 0;
+    height: 100%;
 }
 
 header {
-    margin: 1em;
+    background-color: var(--primary-color);
+    padding: 1em;
 }
 
 .todoList {

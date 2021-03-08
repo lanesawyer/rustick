@@ -9,7 +9,7 @@ mod components;
 mod project_list;
 mod todo_item;
 
-use components::{Footer, Header};
+use components::header::Header;
 use project_list::ProjectList;
 use rustick::todo::Task;
 use todo_item::TodoItem;
@@ -100,7 +100,6 @@ impl Component for Model {
                         <button onclick=self.link.callback(|_| Msg::AddTask)>{ "Add task" }</button>
                     </div>
                 </main>
-                <Footer />
             </>
         }
     }

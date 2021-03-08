@@ -10,7 +10,9 @@ pub struct Task {
     pub tags: Vec<Tag>,
     comments: Vec<Comment>,
     pub project_id: u32,
-    // created_date: DateTime<Utc>,
+    due_date: DateTime<Utc>,
+    created_date: DateTime<Utc>,
+    modified_date: DateTime<Utc>,
 }
 
 impl Default for Task {
@@ -23,7 +25,9 @@ impl Default for Task {
             tags: Default::default(),
             comments: Default::default(),
             project_id: Default::default(),
-            // created_date: Utc::now(),
+            due_date: Utc::now(),
+            created_date: Utc::now(),
+            modified_date: Utc::now(),
         }
     }
 }
