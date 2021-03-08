@@ -99,10 +99,10 @@ impl Component for TodoItem {
 
         let id = task.id;
         let priority = match task.priority {
-            Must => ("1", "Must"),
-            Should => ("2", "Should"),
-            Could => ("3", "Could"),
-            Wont => ("4", "Wont"),
+            P1 => ("1", "Must"),
+            P2 => ("2", "Should"),
+            P3 => ("3", "Could"),
+            P4 => ("4", "Wont"),
         };
         let priority_class = format!("todoItem-priority{}", priority.0);
 
@@ -118,13 +118,13 @@ impl Component for TodoItem {
             <span class="todoItem-details">
                 <span class="todoItem-detailsContainer">
                     <img src="icons/calendar-event.svg" />
-                    <span>{"Due Date"}</span>
+                    <span>{task.due_date}</span>
                     <img src="icons/flag.svg" />
                     <span class={priority_class}>{ priority.1 }</span>
                     <img src="icons/tag.svg" />
                     { tags }
                 </span>
-                <span class="todoItem-project">{&task.project_id}</span>
+                <span class="todoItem-list">{&task.list_id}</span>
             </span>
         };
         
@@ -132,6 +132,7 @@ impl Component for TodoItem {
             <li class="todoItem">
                 <span class="todoItem-todo">
                     <span>
+                    
                         <input
                             type="checkbox"
                             class=classes

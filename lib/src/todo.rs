@@ -9,8 +9,8 @@ pub struct Task {
     pub priority: Priority,
     pub tags: Vec<Tag>,
     comments: Vec<Comment>,
-    pub project_id: u32,
-    due_date: DateTime<Utc>,
+    pub list_id: u32,
+    pub due_date: DateTime<Utc>,
     created_date: DateTime<Utc>,
     modified_date: DateTime<Utc>,
 }
@@ -21,10 +21,10 @@ impl Default for Task {
             id: 0, // Uuid::new_v4(), - using a simpler value so I can get rid of some compiler errors
             description: "New todo".to_string(),
             status: Status::Open,
-            priority: Priority::Wont,
+            priority: Priority::P4,
             tags: Default::default(),
             comments: Default::default(),
-            project_id: Default::default(),
+            list_id: Default::default(),
             due_date: Utc::now(),
             created_date: Utc::now(),
             modified_date: Utc::now(),
@@ -76,10 +76,10 @@ pub enum Status {
 
 #[derive(Copy, Clone, Debug, Serialize, Deserialize)]
 pub enum Priority {
-    Must,
-    Should,
-    Could,
-    Wont,
+    P1,
+    P2,
+    P3,
+    P4,
 }
 
 #[derive(Serialize, Deserialize, Clone, Debug)]

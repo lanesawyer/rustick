@@ -23,6 +23,9 @@ body {
 }
 
 header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
     background-color: var(--primary-color);
     padding: 1em;
 }
@@ -57,7 +60,7 @@ header {
     justify-content: space-between;
 }
 
-.todoItem-project {
+.todoItem-list {
     margin: 5px;
 }
 

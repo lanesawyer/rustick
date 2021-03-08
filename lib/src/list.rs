@@ -1,16 +1,18 @@
 use crate::todo::{Status, Task};
+use serde::{Deserialize, Serialize};
 
-pub struct Project {
+#[derive(Serialize, Deserialize, Clone)]
+pub struct List {
     pub name: String,
     pub icon: Option<String>,
     todos: Vec<Task>,
     status: Status,
 }
 
-impl Default for Project {
+impl Default for List {
     fn default() -> Self {
-        Project {
-            name: "New project".to_string(),
+        List {
+            name: "New list".to_string(),
             icon: None,
             todos: Vec::new(),
             status: Status::Open,
@@ -18,9 +20,9 @@ impl Default for Project {
     }
 }
 
-impl Project {
+impl List {
     pub fn new(name: &str) -> Self {
-        Project {
+        List {
             name: name.to_string(),
             ..Default::default()
         }
@@ -51,18 +53,18 @@ mod tests {
     use super::*;
 
     #[test]
-    fn default_project_values_are_correct() {
-        let project = Project::default();
+    fn default_list_values_are_correct() {
+        let list = List::default();
 
-        assert_eq!("New project", project.name);
-        assert_eq!(0, project.todos.len());
+        assert_eq!("New list", list.name);
+        assert_eq!(0, list.todos.len());
     }
 
     #[test]
     fn new_uses_provided_string() {
-        let project = Project::new("New test project");
+        let list = List::new("New test list");
 
-        assert_eq!("New test project", project.name);
+        assert_eq!("New test list", list.name);
     }
 
     #[test]
@@ -70,11 +72,11 @@ mod tests {
         let todo = Task::new("New test todo");
         let todo2 = Task::new("New test todo 2");
 
-        let project = Project::new("New test project")
+        let list = List::new("New test list")
             .add_todo(todo)
             .add_todo(todo2);
 
-        assert_eq!(2, project.todos.len());
+        assert_eq!(2, list.todos.len());
     }
 
     #[test]
@@ -82,14 +84,14 @@ mod tests {
         let todo = Task::new("New test todo");
         let todo2 = Task::new("New test todo 2");
 
-        let project = Project::new("New test project")
+        let list = List::new("New test list")
             .add_todo(todo)
             .add_todo(todo2)
             .archive();
 
-        assert_eq!(Status::Archived, project.status);
+        assert_eq!(Status::Archived, list.status);
 
-        for todo in project.todos {
+        for todo in list.todos {
             assert_eq!(Status::Archived, todo.check_status());
         }
     }
@@ -99,10 +101,10 @@ mod tests {
         let todo = Task::new("New test todo");
         let todo2 = Task::new("New test todo 2");
 
-        let project = Project::new("New test project")
+        let list = List::new("New test list")
             .add_todo(todo)
             .add_todo(todo2);
 
-        assert_eq!(2, project.num_todos());
+        assert_eq!(2, list.num_todos());
     }
 }

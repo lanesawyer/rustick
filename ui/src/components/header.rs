@@ -20,9 +20,13 @@ impl Component for Header {
     fn view(&self) -> Html {
         html! {
             <header>
-                <img src="icons/hamburger.svg" />
-                { "Rustick" }
-                <img src="icons/search.svg" />
+                <span>
+                    <img src="icons/hamburger.svg" />
+                    { "Rustick" }
+                </span>
+                <span>
+                    <img src="icons/search.svg" />
+                </span>
             </header>
         }
     }

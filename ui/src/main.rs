@@ -6,12 +6,12 @@ use yew::{
 };
 
 mod components;
-mod project_list;
+mod lists_list;
 mod todo_item;
 
 use components::header::Header;
-use project_list::ProjectList;
-use rustick::todo::Task;
+use lists_list::ListsList;
+use rustick::{filter::Filter, list::List, todo::{Tag, Task}};
 use todo_item::TodoItem;
 
 const KEY: &str = "rustic.local";
@@ -33,11 +33,14 @@ impl Model {
 #[derive(Serialize, Deserialize)]
 struct State {
     tasks: Vec<Task>,
+    lists: Vec<List>,
+    filters: Vec<Filter>,
+    tags: Vec<Tag>,
     new_task: String,
 }
 
 enum Msg {
-    AddTask,
+    AddTask(String),
 }
 
 impl Component for Model {
@@ -51,6 +54,18 @@ impl Component for Model {
             storage,
             state: State {
                 tasks: vec![Task::new("wooo"), Task::new("eeee")],
+                filters: vec![Filter{}],
+                lists: vec![],
+                tags: vec![
+                    Tag {
+                        text: "heyo".to_string(),
+                        color: "#AABBCC".to_string(),
+                    },
+                    Tag {
+                        text: "there".to_string(),
+                        color: "#DDEEFF".to_string(),
+                    }
+                ],
                 new_task: String::from(""),
             },
         }
@@ -58,13 +73,8 @@ impl Component for Model {
 
     fn update(&mut self, msg: Self::Message) -> ShouldRender {
         match msg {
-            Msg::AddTask => print!("todo"),
+            Msg::AddTask(name) => self.state.tasks.push(Task::new(&name)),
         }
-
-        let window: web_sys::Window = web_sys::window().expect("window not available");
-        window
-            .alert_with_message("hello from wasm!")
-            .expect("alert failed");
 
         self.storage.store(KEY, Json(&self.state.tasks));
         true
@@ -78,10 +88,19 @@ impl Component for Model {
     }
 
     fn view(&self) -> Html {
+
+        let this = html! { 
+            <ListsList 
+                lists={&self.state.lists}
+                filters={&self.state.filters}
+                tags={&self.state.tags} 
+            />
+        };
+
         html! {
             <>
                 <Header />
-                <ProjectList />
+                {this}
                 <main>
                     <h2>{ "Todos" }</h2>
                     <ul class="todoList">
@@ -97,7 +116,7 @@ impl Component for Model {
                         //     value=&self.state.newTask
                         //     oninput=self.link.callback(|e: InputData| Msg::UpdateNewTask(e.value))
                         // />
-                        <button onclick=self.link.callback(|_| Msg::AddTask)>{ "Add task" }</button>
+                        <button onclick=self.link.callback(|_| Msg::AddTask("hey".to_string()))>{ "Add task" }</button>
                     </div>
                 </main>
             </>
