@@ -5,7 +5,7 @@ authors = ["Lane Sawyer <github@lanesawyer.dev>"]
 edition = "2018"
 
 [dependencies]
-yew = "0.17.4"
+yew = "0.20.0"
 web-sys = "0.3"
 rustick = { path = "../lib" }
 serde = { version = "1", features = [ "derive" ] }
